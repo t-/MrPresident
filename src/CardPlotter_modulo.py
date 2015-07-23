@@ -5,9 +5,18 @@ import helperfn.style as style
 import helperfn.fn as fn
 import random
 
+
+def badrnd(N=100):
+    a = []
+    n = 1
+    for i in xrange(N):
+        a.append(float(n % 256) / 256.0)
+        n = n + n % 256 * n % 256
+    return a
+
 # define distribution properties
 xmin = 0.0
-xmax = 1.0
+xmax = 15.0
 
 # number of pairs generated
 npairs = 4
@@ -18,21 +27,9 @@ npairs = 4
 hashes = []
 for i in xrange(npairs):
     NSAMPLE = np.random.randint(300, 500)
-    x = np.linspace(xmin, xmax, NSAMPLE)
-    phi = np.random.uniform(0., 2.*np.pi)
-    width1 = 1
-    width2 = 1
-
-    # define distribution fn
-    fx1 = np.random.uniform(0, 1, NSAMPLE)
-    fx2 = np.random.uniform(0, 1, NSAMPLE)
-
-    # draw points from distribution
-    x = fx1
-    y = fx2
-    # rotate distributions by phi
-    # x = xr*np.cos(phi)-yr*np.sin(phi)
-    # y = xr*np.sin(phi)-yr*np.cos(phi)
+    a = badrnd(NSAMPLE*2)
+    x = np.array(a[0:NSAMPLE]) * xmax
+    y = np.array(a[NSAMPLE-1:-1]) * xmax
 
     hash = random.getrandbits(128)
     a = "%032x" % hash
@@ -46,7 +43,7 @@ for i in xrange(npairs):
     plt.xlim((xmin, xmax))
     plt.ylim((xmin, xmax))
     plt.axis('off')
-    plt.savefig('../renderings/find_similar_uniform%d_1.png' % (i))
+    plt.savefig('../renderings/find_similar_mod%d_1.png' % (i))
 
     # draw card 2
     fig, ax = plt.subplots()
@@ -56,11 +53,11 @@ for i in xrange(npairs):
     plt.xlim((xmin, xmax))
     plt.ylim((xmin, xmax))
     plt.axis('off')
-    plt.savefig('../renderings/find_similar_uniform%d_2.png' % (i))
+    plt.savefig('../renderings/find_similar_mod%d_2.png' % (i))
 
-    hashes.append([a,NSAMPLE])
+    hashes.append(a)
 
-f = open('../renderings/hash_uniform.dat', 'w')
+f = open('../renderings/hash_mod.dat', 'w')
 for i in hashes:
     print >>f, i
 f.close()

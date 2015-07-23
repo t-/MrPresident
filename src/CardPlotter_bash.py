@@ -7,7 +7,7 @@ import random
 
 # define distribution properties
 xmin = 0.0
-xmax = 1.0
+xmax = 15.0
 
 # number of pairs generated
 npairs = 4
@@ -17,23 +17,17 @@ npairs = 4
 #
 hashes = []
 for i in xrange(npairs):
+    x = []
+    y = []
+    for f in open('../data/doom_%d.dat' % (i+1)):
+        li = f.strip('\n').split(' ')
+        x.append(float(li[0]))
+        y.append(float(li[1]))
     NSAMPLE = np.random.randint(300, 500)
-    x = np.linspace(xmin, xmax, NSAMPLE)
-    phi = np.random.uniform(0., 2.*np.pi)
-    width1 = 1
-    width2 = 1
+    x = np.array(x[0:NSAMPLE]) * xmax  # * 3.0
+    y = np.array(y[0:NSAMPLE]) * xmax  # * 3.0
 
-    # define distribution fn
-    fx1 = np.random.uniform(0, 1, NSAMPLE)
-    fx2 = np.random.uniform(0, 1, NSAMPLE)
-
-    # draw points from distribution
-    x = fx1
-    y = fx2
-    # rotate distributions by phi
-    # x = xr*np.cos(phi)-yr*np.sin(phi)
-    # y = xr*np.sin(phi)-yr*np.cos(phi)
-
+    print np.max(x), np.max(y)
     hash = random.getrandbits(128)
     a = "%032x" % hash
     a = a[0:6]
@@ -46,7 +40,7 @@ for i in xrange(npairs):
     plt.xlim((xmin, xmax))
     plt.ylim((xmin, xmax))
     plt.axis('off')
-    plt.savefig('../renderings/find_similar_uniform%d_1.png' % (i))
+    plt.savefig('../renderings/find_similar_bash%d_1.png' % (i))
 
     # draw card 2
     fig, ax = plt.subplots()
@@ -56,11 +50,11 @@ for i in xrange(npairs):
     plt.xlim((xmin, xmax))
     plt.ylim((xmin, xmax))
     plt.axis('off')
-    plt.savefig('../renderings/find_similar_uniform%d_2.png' % (i))
+    plt.savefig('../renderings/find_similar_bash%d_2.png' % (i))
 
-    hashes.append([a,NSAMPLE])
+    hashes.append(a)
 
-f = open('../renderings/hash_uniform.dat', 'w')
+f = open('../renderings/hash_bash.dat', 'w')
 for i in hashes:
     print >>f, i
 f.close()

@@ -7,7 +7,7 @@ import random
 
 # define distribution properties
 xmin = 0.0
-xmax = 1.0
+xmax = 15.0
 
 # number of pairs generated
 npairs = 4
@@ -17,15 +17,15 @@ npairs = 4
 #
 hashes = []
 for i in xrange(npairs):
-    NSAMPLE = np.random.randint(300, 500)
+    NSAMPLE = np.random.randint(200)
     x = np.linspace(xmin, xmax, NSAMPLE)
     phi = np.random.uniform(0., 2.*np.pi)
     width1 = 1
     width2 = 1
 
     # define distribution fn
-    fx1 = np.random.uniform(0, 1, NSAMPLE)
-    fx2 = np.random.uniform(0, 1, NSAMPLE)
+    fx1 = np.random.poisson(np.random.randint(2,6), NSAMPLE)
+    fx2 = np.random.poisson(np.random.randint(2,6), NSAMPLE)
 
     # draw points from distribution
     x = fx1
@@ -46,7 +46,7 @@ for i in xrange(npairs):
     plt.xlim((xmin, xmax))
     plt.ylim((xmin, xmax))
     plt.axis('off')
-    plt.savefig('../renderings/find_similar_uniform%d_1.png' % (i))
+    plt.savefig('../renderings/find_similar_poisson%d_1.png' % (i))
 
     # draw card 2
     fig, ax = plt.subplots()
@@ -56,11 +56,11 @@ for i in xrange(npairs):
     plt.xlim((xmin, xmax))
     plt.ylim((xmin, xmax))
     plt.axis('off')
-    plt.savefig('../renderings/find_similar_uniform%d_2.png' % (i))
+    plt.savefig('../renderings/find_similar_poisson%d_2.png' % (i))
 
-    hashes.append([a,NSAMPLE])
+    hashes.append(a)
 
-f = open('../renderings/hash_uniform.dat', 'w')
+f = open('../renderings/hash_poisson.dat', 'w')
 for i in hashes:
     print >>f, i
 f.close()
