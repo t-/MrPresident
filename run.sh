@@ -1,5 +1,8 @@
 #!/bin/bash
-for i in src/*.py;
+b=$(pwd)
+cd src
+for i in Card*.py;
 do
-	python $i
+    python $i
 done
+cd $b
