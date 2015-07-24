@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib import rc
 
-mpl.rcParams['figure.figsize'] = [3.25, 3.25]
+mpl.rcParams['figure.figsize'] = [3.622,2.323]
 mpl.rcParams['figure.dpi'] = 300
 mpl.rcParams['font.size'] = 8.
 mpl.rcParams['font.family'] = 'sans-serif'
